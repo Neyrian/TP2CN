@@ -1,12 +1,15 @@
-PROG=huffman
+PROG=hamming
 all: $(PROG)
 
 OPTIONS_COMPIL  =-Wall -O2 -fPIC
 
-huffman: huffman.o
-	gcc -o $@ $^
+hamming: hamming.o utils_hamming.o
+	gcc -o $@ $^ -lm
 
-huffman.o: huffman.c
+hamming.o: hamming.c utils_hamming.h
+	gcc $(OPTIONS_COMPIL) -c $<
+
+utils_hamming.o: utils_hamming.c utils_hamming.h
 	gcc $(OPTIONS_COMPIL) -c $<
 
 clean:
