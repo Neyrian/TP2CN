@@ -24,14 +24,32 @@ int main(int argc, char const *argv[]) {
     printf("Argument N et K incorrects\n");
     exit(1);
   }
-  printf("Matrice transposée H :\n");
-  int *tH = generer_matrice_tH(N-K, N);
-  afficher_matrice(tH, N-K, N);
+
   printf("Matrice G :\n");
-  int *G = generer_matrice_G(N, K, tH);
+  int *G = generer_matrice_G(N, K);
   afficher_matrice(G, N, K);
   int *mot = lire_mot(argv[3], K);
-  
+
+
+  // calcul
+
+  int mot_code[N];
+
+  for (int i = 0; i < N; i ++) {
+    mot_code[i] = 0;
+    for (int j = 0; j < K; j ++) {
+      mot_code[i] = ou_exclusif(mot_code[i], mot[j] * G[i + j * N]);
+    }
+  }
+  printf("Le mot a codé est ");
+  for (int i = 0; i < K; i ++) {
+    printf("%d ", mot[i]);
+  }
+  printf("\nLe mot codé est ");
+  for (int i = 0; i < N; i ++) {
+    printf("%d ", mot_code[i]);
+  }
+  printf("\n");
 
 
 

@@ -30,20 +30,31 @@ int ispuissanceofdeux(int *b, int k) {
   Avec I la matrice identité de taille K * K
   A la matrice des mots binaires de taille K non null (les K première ligne de tH)
 */
-int *generer_matrice_G(int n, int k, int *tH) {
+int *generer_matrice_G(int n, int k) {
   int *g = (int *) malloc(sizeof(int) * n * k);
+  int m = 3;
+  int b_size = n - k;
+  int b[b_size];
+
   for (int i = 0; i < k; i ++) {
-    for (int j = 0; j < n; j ++) {
-      if (j < k) {
-        if (j == i) {
-          g[i * n + j] = 1;
-        } else {
-          g[i * n + j] = 0;
-        }
+    for (int j = 0; j < k; j ++) {
+      if (j == i) {
+        g[i * n + j] = 1;
       } else {
-        g[i * n + j] = tH[i * (n-k) + (j - k)];
+        g[i * n + j] = 0;
       }
     }
+    initb(b, b_size);
+    dualbase(b, m);
+    if (ispuissanceofdeux(b, b_size) == 1) {
+      m ++;
+      initb(b, b_size);
+      dualbase(b, m);
+    }
+    for (int j = 0; j < b_size; j++) {
+      g[i * n + j + k] = b[j];
+    }
+    m ++;
   }
   return g;
 }
@@ -107,7 +118,46 @@ int *lire_mot(const char *arg, int k) {
   }
 
   for (int i = 0; i < k; i ++) {
-    mot[i] = arg[i];
+    if (arg[i] == 48) {
+      mot[i] = 0;
+    } else if (arg[i] == 49) {
+      mot[i] = 1;
+    } else {
+      printf("Mot incorrect, doit etre dans {0,1}^k\n");
+      exit(1);
+    }
+
   }
   return mot;
+}
+
+
+int ou_exclusif(int a, int b) {
+  if ((a == 1) && (b == 1)) {
+    return 0;
+  } else {
+    return a + b;
+  }
+}
+int neg(int a) {
+  if (a == 1)
+    return 0;
+  return 1;
+}
+
+
+int correction(int *syndrome, int *tH, int N, int K) {
+  int test;
+  for (int i = 0; i < K; i ++) {
+    test = 1;
+    for (int j = 0; j < N; j ++) {
+      if (syndrome[j] != tH[i * N + j]) {
+        test = 0;
+      }
+    }
+    if (test == 1) {
+      return i;
+    }
+  }
+  return -1;
 }
