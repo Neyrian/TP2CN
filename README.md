@@ -5,6 +5,6 @@ TP2 de Communication Numérique, ce TP consiste à nous faire travailler sur plu
 ###### [à compléter]
 
 ## Comment compiler
-```C
-//TODO
+```
+make
 ```
