@@ -4,9 +4,8 @@
 #include "CRC-utils.h"
 
 int main(int argc, char * argv[]) {
-    if (argc != 3 || argv[1][0] == '0' || argv[2][0] == '0') {
-        fprintf(stderr, "utilisation : %s <mot> <polynome_générateur>\n\t\
--> les paramètres doivent commencer par un '1'.\n", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "utilisation : %s <mot> <polynome_générateur>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -18,9 +17,20 @@ int main(int argc, char * argv[]) {
 
     //Définition de G(x)
     mot G = init_mot();
+    while(argv[2][0] == '0') argv[2]++;
     G->l = strlen(argv[2]);
     for (int i = 0; i < G->l; i++)
         G->code[i] = argv[2][i];
+
+    if (check_integrity(D) == -1) {
+        fprintf(stderr, "<mot : %s> n'est pas sous forme binaire\n", argv[1]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (check_integrity(G) == -1) {
+        fprintf(stderr, "<p_g : %s> n'est pas sous forme binaire\n", argv[2]);
+        exit(EXIT_FAILURE);
+    }
 
     //Définition de C(x) à partir de D(x)
     mot C = D;
@@ -28,7 +38,7 @@ int main(int argc, char * argv[]) {
     grow_word(C, max_degree(G));
 
     //Calcul du Reste R(x)
-    mot R = division_euclidienne(C, G);
+    mot R = reste_euclidien(C, G);
 
     //Mise à jour de C avec R
     for(int i = 0; i < max_degree(G); i++) {

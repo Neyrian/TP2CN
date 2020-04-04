@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#define MAX_WORD_SIZE 64
+#define MAX_WORD_SIZE 256
 
 typedef struct mot_t {
     char code[MAX_WORD_SIZE]; //code binaire
@@ -9,8 +9,10 @@ typedef struct mot_t {
 
 mot init_mot();
 
+int check_integrity(mot M);
+
 int max_degree(mot M);
 
 void grow_word(mot M, int length);
 
-mot division_euclidienne(mot divise, mot diviseur);
+mot reste_euclidien(mot divise, mot diviseur);
