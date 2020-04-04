@@ -12,6 +12,12 @@ int check_integrity(mot M) {
     return 0;
 }
 
+int is_zero (mot M){
+    for(int i = 0; i < M->l; i++)
+        if (M->code[i] != '0') return -1;
+    return 0;
+}
+
 int max_degree(mot M) {
     return M->l - 1;
 }

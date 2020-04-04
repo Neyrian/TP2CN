@@ -11,6 +11,8 @@ mot init_mot();
 
 int check_integrity(mot M);
 
+int is_zero (mot M);
+
 int max_degree(mot M);
 
 void grow_word(mot M, int length);

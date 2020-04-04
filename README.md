@@ -10,7 +10,7 @@ Vous pourrez lancer les différents exécutables comme ceci:
 ```shell
 $> ./CRC-4 00110101 10111
 (...)
-$> ./CRC-check 101010111011
+$> ./CRC-check 101010111011 10111
 (...)
 $> ./code_hamming 7 4 0011
 (...)

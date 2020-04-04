@@ -23,12 +23,12 @@ int main(int argc, char * argv[]) {
         G->code[i] = argv[2][i];
 
     if (check_integrity(D) == -1) {
-        fprintf(stderr, "<mot : %s> n'est pas sous forme binaire\n", argv[1]);
+        fprintf(stderr, "<mot : %s> n'est pas sous forme binaire\n", D->code);
         exit(EXIT_FAILURE);
     }
 
     if (check_integrity(G) == -1) {
-        fprintf(stderr, "<p_g : %s> n'est pas sous forme binaire\n", argv[2]);
+        fprintf(stderr, "<p_g : %s> n'est pas sous forme binaire\n", G->code);
         exit(EXIT_FAILURE);
     }
 
