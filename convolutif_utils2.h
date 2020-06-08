@@ -29,4 +29,4 @@ mot init_mot();
 
 etat init_automate();
 
-void creer_chemin(chemin *c, int poids, int *code, int length, etat e);
+void creer_chemin(chemin *c, float poids, int *code, int length, etat e);

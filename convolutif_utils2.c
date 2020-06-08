@@ -55,7 +55,7 @@ etat init_automate(){
 }
 
 
-void creer_chemin(chemin *c, int poids, int *code, int length, etat e) {
+void creer_chemin(chemin *c, float poids, int *code, int length, etat e) {
   for (int i = 0; i < MAX_WORD_SIZE; i ++) {
     if (code != NULL) {
       c->code[i] = code[i];

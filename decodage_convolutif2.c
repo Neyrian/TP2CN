@@ -87,10 +87,7 @@ int main(int argc, char const *argv[]) {
   for (int i = 0; i < l_chemin_t[min].length; i ++) {
     printf("%d", l_chemin_t[min].code[i]);
   }
-  if (l_chemin_t[min].poids >= 3) {
-    printf(". Attention, il y a 3 ou + erreurs.\n");
-  } else {
-    printf(". Il y a %f erreurs.\n", l_chemin_t[min].poids);
-  }
+  printf(". On a une distance totale de %f.\n", l_chemin_t[min].poids);
+
   return 0;
 }
