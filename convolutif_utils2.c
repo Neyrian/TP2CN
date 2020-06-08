@@ -1,4 +1,4 @@
-#include "convolutif_utils.h"
+#include "convolutif_utils2.h"
 
 mot init_mot() {
     mot M = (mot) malloc(sizeof(struct mot_t));
@@ -55,12 +55,12 @@ etat init_automate(){
 }
 
 
-void creer_chemin(chemin *c, int poids, char *code, int length, etat e) {
+void creer_chemin(chemin *c, int poids, int *code, int length, etat e) {
   for (int i = 0; i < MAX_WORD_SIZE; i ++) {
     if (code != NULL) {
       c->code[i] = code[i];
     } else {
-      c->code[i] = '0';
+      c->code[i] = 0;
     }
   }
   c->length = length;
