@@ -45,7 +45,7 @@ int main(int argc, char const *argv[]) {
         if (l_chemin_t_suivant[tmp_chemin.act->name].poids == -1) {
           l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
         } else {
-          if (l_chemin_t_suivant[tmp_chemin.act->name].poids > tmp_chemin.poids) {
+          if (l_chemin_t_suivant[tmp_chemin.act->name].poids >= tmp_chemin.poids) {
             l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
           }
         }
@@ -64,16 +64,19 @@ int main(int argc, char const *argv[]) {
           l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
         } else {
           if (l_chemin_t_suivant[tmp_chemin.act->name].poids > tmp_chemin.poids) {
-            l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
+            creer_chemin(&l_chemin_t_suivant[tmp_chemin.act->name], tmp_chemin.poids, tmp_chemin.code, tmp_chemin.length, tmp_chemin.act);
           }
         }
       }
     }
 
-    for (int i = 0; i < 4; i ++) {
-      creer_chemin(&(l_chemin_t[i]), l_chemin_t_suivant[i].poids, l_chemin_t_suivant[i].code, l_chemin_t_suivant[i].length, l_chemin_t_suivant[i].act);
-      l_chemin_t_suivant[i].poids = -1;
+    if (d < word->l) {
+      for (int i = 0; i < 4; i ++) {
+        creer_chemin(&(l_chemin_t[i]), l_chemin_t_suivant[i].poids, l_chemin_t_suivant[i].code, l_chemin_t_suivant[i].length, l_chemin_t_suivant[i].act);
+        l_chemin_t_suivant[i].poids = -1;
+      }
     }
+
   }
 
   int min = -1;
@@ -86,11 +89,10 @@ int main(int argc, char const *argv[]) {
       }
     }
   }
-
   printf("Le message codé est: %s. Le message décodé est : ", word->code);
   for (int i = 0; i < l_chemin_t[min].length; i ++) {
     printf("%d", l_chemin_t[min].code[i]);
   }
-  printf("\n");
+  printf(". Il y a %d erreurs.\n", l_chemin_t[min].poids);
   return 0;
 }
