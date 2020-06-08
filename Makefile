@@ -53,7 +53,7 @@ random_word: random_word.c
 
 .PHONY: clean test
 
-test:
+test: codage_convolutif decodage_convolutif
 	./codage_convolutif 00101110
 	./decodage_convolutif 0000111000011001
 	./decodage_convolutif 0100111000011001
