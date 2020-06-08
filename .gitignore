@@ -1,0 +1,8 @@
+*.o 
+code_hamming 
+decode_hamming 
+CRC-4 
+CRC-check 
+codage_convolutif 
+decodage_convolutif 
+random_word
