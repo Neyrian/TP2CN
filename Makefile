@@ -1,4 +1,4 @@
-PROG=code_hamming decode_hamming CRC-4 CRC-check codage_convolutif decodage_convolutif
+PROG=code_hamming decode_hamming CRC-4 CRC-check codage_convolutif decodage_convolutif random_word
 all: $(PROG)
 
 OPTIONS_COMPIL = -Werror -Wall -g
@@ -47,6 +47,9 @@ decodage_convolutif.o: decodage_convolutif.c convolutif_utils.h
 
 decodage_convolutif: decodage_convolutif.o convolutif_utils.o
 	gcc -o $@ $^ -lm
+
+random_word: random_word.c
+	gcc -o $@ $<
 
 clean:
 	rm -f *.o $(PROG) *~
