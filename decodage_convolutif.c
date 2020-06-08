@@ -24,61 +24,73 @@ int main(int argc, char const *argv[]) {
   chemin l_chemin_t[4];
   chemin l_chemin_t_suivant[4];
   for (int i = 0; i < 4; i ++) {
-    l_chemin_t[i] = NULL;
-    l_chemin_t_suivant[i] = NULL;
+    l_chemin_t[i].poids = -1;
+    l_chemin_t_suivant[i].poids = -1;
   }
-  l_chemin_t[0] = creer_chemin(0,NULL, 0);
-
+  creer_chemin(l_chemin_t, 0,NULL, 0, init_automate());
   for (int d = 0; d < word->l; d += 2) {
     for (int n_chemin = 0; n_chemin < 4; n_chemin ++) {
-      if (l_chemin_t[n_chemin] != NULL) {
+      if (l_chemin_t[n_chemin].poids != -1) {
         //transition 0
-        chemin tmp_chemin = creer_chemin(l_chemin_t[n_chemin]->poids, l_chemin_t[n_chemin]->code, l_chemin_t[n_chemin]->length);
-        tmp_chemin->code[tmp_chemin->length] = 0;
-        tmp_chemin->length ++;
-        if (tmp_chemin->act->sortie_0[0] != word->code[d])
-          tmp_chemin->poids ++;
-        if (tmp_chemin->act->sortie_0[1] != word->code[d-1])
-          tmp_chemin->poids ++;
-        tmp_chemin->act = tmp_chemin->act->trans_0;
+        chemin tmp_chemin;
+        creer_chemin(&tmp_chemin, l_chemin_t[n_chemin].poids, l_chemin_t[n_chemin].code, l_chemin_t[n_chemin].length, l_chemin_t[n_chemin].act);
+        tmp_chemin.code[tmp_chemin.length] = 0;
+        tmp_chemin.length ++;
+        if (tmp_chemin.act->sortie_0[0] != word->code[d])
+          tmp_chemin.poids ++;
+        if (tmp_chemin.act->sortie_0[1] != word->code[d+1])
+          tmp_chemin.poids ++;
+        tmp_chemin.act = tmp_chemin.act->trans_0;
 
-        if (l_chemin_t_suivant[tmp_chemin->act->name - 1] == NULL) {
-          l_chemin_t_suivant[tmp_chemin->act->name - 1] = tmp_chemin;
+        if (l_chemin_t_suivant[tmp_chemin.act->name].poids == -1) {
+          l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
         } else {
-          if (l_chemin_t_suivant[tmp_chemin->act->name - 1]->poids > tmp_chemin->poids) {
-            l_chemin_t_suivant[tmp_chemin->act->name - 1] = tmp_chemin;
+          if (l_chemin_t_suivant[tmp_chemin.act->name].poids > tmp_chemin.poids) {
+            l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
           }
         }
 
         //transition 1
-        tmp_chemin = creer_chemin(l_chemin_t[n_chemin]->poids, l_chemin_t[n_chemin]->code, l_chemin_t[n_chemin]->length);
-        tmp_chemin->code[tmp_chemin->length] = 1;
-        tmp_chemin->length ++;
-        if (tmp_chemin->act->sortie_1[0] != word->code[d])
-          tmp_chemin->poids ++;
-        if (tmp_chemin->act->sortie_1[1] != word->code[d-1])
-          tmp_chemin->poids ++;
-        tmp_chemin->act = tmp_chemin->act->trans_1;
+        creer_chemin(&tmp_chemin, l_chemin_t[n_chemin].poids, l_chemin_t[n_chemin].code, l_chemin_t[n_chemin].length, l_chemin_t[n_chemin].act);
+        tmp_chemin.code[tmp_chemin.length] = 1;
+        tmp_chemin.length ++;
+        if (tmp_chemin.act->sortie_1[0] != word->code[d])
+          tmp_chemin.poids ++;
+        if (tmp_chemin.act->sortie_1[1] != word->code[d+1])
+          tmp_chemin.poids ++;
+        tmp_chemin.act = tmp_chemin.act->trans_1;
 
-        if (l_chemin_t_suivant[tmp_chemin->act->name - 1] == NULL) {
-          l_chemin_t_suivant[tmp_chemin->act->name - 1] = tmp_chemin;
+        if (l_chemin_t_suivant[tmp_chemin.act->name].poids == -1) {
+          l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
         } else {
-          if (l_chemin_t_suivant[tmp_chemin->act->name - 1]->poids > tmp_chemin->poids) {
-            l_chemin_t_suivant[tmp_chemin->act->name - 1] = tmp_chemin;
+          if (l_chemin_t_suivant[tmp_chemin.act->name].poids > tmp_chemin.poids) {
+            l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
           }
         }
       }
     }
 
     for (int i = 0; i < 4; i ++) {
-      l_chemin_t[i] = l_chemin_t_suivant[i];
-      l_chemin_t_suivant[i] = NULL;
+      creer_chemin(&(l_chemin_t[i]), l_chemin_t_suivant[i].poids, l_chemin_t_suivant[i].code, l_chemin_t_suivant[i].length, l_chemin_t_suivant[i].act);
+      l_chemin_t_suivant[i].poids = -1;
     }
   }
 
-  int min = 0;
+  int min = -1;
   for (int i = 0; i < 4; i ++) {
-  //  if (l_chemin_t[i] <= l_ch)
+    if (l_chemin_t[i].poids != -1) {
+      if (min == -1){
+        min = i;
+      } else if (l_chemin_t[i].poids <= l_chemin_t[min].poids) {
+        min = i;
+      }
+    }
   }
+
+  printf("Le message codé est: %s. Le message décodé est : ", word->code);
+  for (int i = 0; i < l_chemin_t[min].length; i ++) {
+    printf("%d", l_chemin_t[min].code[i]);
+  }
+  printf("\n");
   return 0;
 }

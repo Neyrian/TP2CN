@@ -62,11 +62,15 @@ etat init_automate(){
 }
 
 
-chemin creer_chemin(int poids, char *code, int length) {
-  chemin tmp = (chemin) malloc(sizeof(chemin));
-  for (int i = 0; i < length; i ++) {
-    tmp->code[i] = code[i];
+void creer_chemin(chemin *c, int poids, char *code, int length, etat e) {
+  for (int i = 0; i < MAX_WORD_SIZE; i ++) {
+    if (code != NULL) {
+      c->code[i] = code[i];
+    } else {
+      c->code[i] = '0';
+    }
   }
-  tmp->length = length;
-  return tmp;
+  c->length = length;
+  c->act = e;
+  c->poids = poids;
 }

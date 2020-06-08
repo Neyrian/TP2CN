@@ -21,7 +21,7 @@ typedef struct chemin_t {
   int poids;
   char code[MAX_WORD_SIZE];
   int length;
-} *chemin;
+} chemin;
 
 
 
@@ -31,4 +31,4 @@ void grow_word(mot M, int length);
 
 etat init_automate();
 
-chemin creer_chemin(int poids, char *code, int length);
+void creer_chemin(chemin *c, int poids, char *code, int length, etat e);
