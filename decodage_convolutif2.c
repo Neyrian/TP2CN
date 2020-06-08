@@ -60,7 +60,7 @@ int main(int argc, char const *argv[]) {
         if (l_chemin_t_suivant[tmp_chemin.act->name].poids == -1) {
           l_chemin_t_suivant[tmp_chemin.act->name] = tmp_chemin;
         } else {
-          if (l_chemin_t_suivant[tmp_chemin.act->name].poids > tmp_chemin.poids) {
+          if (l_chemin_t_suivant[tmp_chemin.act->name].poids >= tmp_chemin.poids) {
             creer_chemin(&l_chemin_t_suivant[tmp_chemin.act->name], tmp_chemin.poids, tmp_chemin.code, tmp_chemin.length, tmp_chemin.act);
           }
         }
