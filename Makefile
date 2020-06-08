@@ -1,63 +1,68 @@
 PROG=code_hamming decode_hamming CRC-4 CRC-check codage_convolutif decodage_convolutif random_word decodage_convolutif2
+SRC=source_code/
+OBJ=objects/
+
 all: $(PROG)
+
+
 
 OPTIONS_COMPIL = -Werror -Wall -g
 
-CRC-4 : CRC-4.o CRC-utils.o
+CRC-4 : $(OBJ)CRC-4.o $(OBJ)CRC-utils.o
 	gcc -o $@ $^
 
-CRC-check : CRC-check.o CRC-utils.o
+CRC-check : $(OBJ)CRC-check.o $(OBJ)CRC-utils.o
 	gcc -o $@ $^
 
-CRC-utils.o : CRC-utils.c CRC-utils.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)CRC-utils.o : $(SRC)CRC-utils.c $(SRC)CRC-utils.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-CRC-4.o : CRC-4.c CRC-utils.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)CRC-4.o : $(SRC)CRC-4.c $(SRC)CRC-utils.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-CRC-check.o : CRC-check.c CRC-utils.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)CRC-check.o : $(SRC)CRC-check.c $(SRC)CRC-utils.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-code_hamming: code_hamming.o utils_hamming.o
+code_hamming: $(OBJ)code_hamming.o $(OBJ)utils_hamming.o
 	gcc -o $@ $^ -lm
 
-code_hamming.o: code_hamming.c utils_hamming.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)code_hamming.o: $(SRC)code_hamming.c $(SRC)utils_hamming.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-decode_hamming: decode_hamming.o utils_hamming.o
+decode_hamming: $(OBJ)decode_hamming.o $(OBJ)utils_hamming.o
 	gcc -o $@ $^ -lm
 
-decode_hamming.o: decode_hamming.c utils_hamming.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)decode_hamming.o: $(SRC)decode_hamming.c $(SRC)utils_hamming.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-utils_hamming.o: utils_hamming.c utils_hamming.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)utils_hamming.o: $(SRC)utils_hamming.c $(SRC)utils_hamming.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-convolutif_utils.o: convolutif_utils.c convolutif_utils.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)convolutif_utils.o: $(SRC)convolutif_utils.c $(SRC)convolutif_utils.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-convolutif_utils2.o: convolutif_utils2.c convolutif_utils2.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)convolutif_utils2.o: $(SRC)convolutif_utils2.c $(SRC)convolutif_utils2.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-codage_convolutif.o: codage_convolutif.c convolutif_utils.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)codage_convolutif.o: $(SRC)codage_convolutif.c $(SRC)convolutif_utils.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-codage_convolutif: codage_convolutif.o convolutif_utils.o
+codage_convolutif: $(OBJ)codage_convolutif.o $(OBJ)convolutif_utils.o
 	gcc -o $@ $^ -lm
 
-decodage_convolutif.o: decodage_convolutif.c convolutif_utils.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)decodage_convolutif.o: $(SRC)decodage_convolutif.c $(SRC)convolutif_utils.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-decodage_convolutif: decodage_convolutif.o convolutif_utils.o
+decodage_convolutif: $(OBJ)decodage_convolutif.o $(OBJ)convolutif_utils.o
 	gcc -o $@ $^ -lm
 
-decodage_convolutif2.o: decodage_convolutif2.c convolutif_utils2.h
-	gcc $(OPTIONS_COMPIL) -c $<
+$(OBJ)decodage_convolutif2.o: $(SRC)decodage_convolutif2.c $(SRC)convolutif_utils2.h
+	gcc $(OPTIONS_COMPIL) -c $< -o $@
 
-decodage_convolutif2: decodage_convolutif2.o convolutif_utils2.o
+decodage_convolutif2: $(OBJ)decodage_convolutif2.o $(OBJ)convolutif_utils2.o
 	gcc -o $@ $^ -lm
 
-random_word: random_word.c
+random_word: $(SRC)random_word.c
 	gcc -o $@ $<
 
 .PHONY: clean test
@@ -73,4 +78,4 @@ test: codage_convolutif decodage_convolutif
 	./decodage_convolutif 1001011000111001
 
 clean:
-	rm -f *.o $(PROG) *~
+	rm -f *.o $(PROG) $(OBJ)*.o

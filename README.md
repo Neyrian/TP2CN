@@ -1,5 +1,5 @@
 # TP2CN
-TP2 de Communication Numérique, ce TP consiste à nous faire travailler sur plusieurs notions : Code de Hamming, Détection d'erreur CRC, Codage convolutif, Décodage de Viterbi (non-digitale), Codes Reed-Solomon, LDPC et Turbocode.
+TP2 de Communication Numérique, ce TP consiste à nous faire travailler sur plusieurs notions : Code de Hamming, Détection d'erreur CRC, Codage convolutif, Décodage de Viterbi (non-digitale).
 
 ## Comment exécuter
 après un Make :
@@ -18,3 +18,10 @@ $> ./decode_hamming 7 4 0011100
 (...)
 ```
 par exemple.
+
+## Comment tester
+Ou lancer une batterie de tests concernant la deuxième partie du TP:
+```shell
+$> make test
+(...)
+```
