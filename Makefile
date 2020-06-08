@@ -51,5 +51,17 @@ decodage_convolutif: decodage_convolutif.o convolutif_utils.o
 random_word: random_word.c
 	gcc -o $@ $<
 
+.PHONY: clean test
+
+test:
+	./codage_convolutif 00101110
+	./decodage_convolutif 0000111000011001
+	./decodage_convolutif 0100111000011001
+	./decodage_convolutif 1000111000011001
+	./decodage_convolutif 0000011000011001
+	./decodage_convolutif 0010101000011001
+	./decodage_convolutif 0001011000111001
+	./decodage_convolutif 1001011000111001
+
 clean:
 	rm -f *.o $(PROG) *~
