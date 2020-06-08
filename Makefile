@@ -1,4 +1,4 @@
-PROG=code_hamming decode_hamming
+PROG=code_hamming decode_hamming codage_convolutif
 all: $(PROG)
 
 OPTIONS_COMPIL  =-Wall -O2 -fPIC
